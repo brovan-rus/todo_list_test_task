@@ -1,0 +1,100 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2024": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "airbnb",
+    "airbnb-typescript",
+    "plugin:unicorn/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "**/tsconfig.json",
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["import", "@typescript-eslint", "unicorn", "prettier"],
+  "ignorePatterns": [
+    "dist/**",
+    "*.d.ts",
+    "*.js",
+    "vite.config.ts",
+    "jest.config.js",
+    "stylelint.config.js",
+    "**/test/*.ts",
+    "**/test/*.tsx",
+    "jest.config.ts"
+  ],
+  "rules": {
+    "import/prefer-default-export": "off",
+    "react/react-in-jsx-scope": "off",
+    "unicorn/prevent-abbreviations": "warn",
+    "unicorn/no-null": "warn",
+    "unicorn/filename-case": [
+      "error",
+      {
+        "cases": {
+          "kebabCase": true,
+          "pascalCase": true,
+          "camelCase": true
+        }
+      }
+    ],
+    "@typescript-eslint/ban-ts-comment": 1,
+    "quotes": ["warn", "single"],
+    "react/require-default-props": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "no-restricted-syntax": "off",
+    "max-len": [
+      "error",
+      {
+        "code": 100
+      }
+    ],
+    "@typescript-eslint/no-explicit-any": "warn",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "@typescript-eslint/explicit-member-accessibility": [
+      "error",
+      {
+        "accessibility": "explicit",
+        "overrides": {
+          "properties": "explicit",
+          "methods": "explicit"
+        }
+      }
+    ],
+    "object-curly-newline": "off",
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "pathGroups": [
+          {
+            "pattern": "@app/*",
+            "group": "internal"
+          }
+        ],
+        "groups": ["builtin", "external", "internal", "parent", ["sibling", "index"]],
+        "pathGroupsExcludedImportTypes": ["builtin"]
+      }
+    ],
+    "no-underscore-dangle": "off",
+    "class-methods-use-this": "off",
+    "no-restricted-exports": "off"
+  }
+}
