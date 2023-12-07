@@ -23,17 +23,13 @@
     "dist/**",
     "*.d.ts",
     "*.js",
-    "vite.config.ts",
-    "jest.config.js",
     "stylelint.config.js",
-    "**/test/*.ts",
-    "**/test/*.tsx",
-    "jest.config.ts"
   ],
   "rules": {
     "import/prefer-default-export": "off",
     "react/react-in-jsx-scope": "off",
     "unicorn/prevent-abbreviations": "warn",
+    "import/no-extraneous-dependencies": "warn",
     "unicorn/no-null": "warn",
     "unicorn/filename-case": [
       "error",
