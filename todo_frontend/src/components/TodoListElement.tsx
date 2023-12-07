@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Checkbox, Container, IconButton, ListItem, Typography } from '@mui/material';
+import { Box, Checkbox, Container, IconButton, ListItem, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { TodoContext, TodoElement } from '../contexts/TodoContext';
@@ -28,17 +28,17 @@ export function TodoListElement({ element }: TodoListElementProperties) {
       <Typography sx={{ width: '80%', textDecoration: element.finished ? 'line-through' : 'none' }}>
         {element.text}
       </Typography>
-      <Container sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex' }}>
         <Checkbox checked={element.finished} onChange={handleFinish} />
         <IconButton
           size="small"
-          sx={{ boxShadow: 1, border: 1, borderRadius: 4 }}
+          sx={{ boxShadow: 1, border: 1 }}
           aria-label="delete"
           onClick={handleDelete}
         >
           <DeleteIcon />
         </IconButton>
-      </Container>
+      </Box>
     </ListItem>
   );
 }

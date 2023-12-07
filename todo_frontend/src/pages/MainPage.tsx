@@ -1,5 +1,6 @@
 import { Container, Divider, Typography } from '@mui/material';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import { gql, useQuery } from '@apollo/client';
 
 import { Form } from '../components/Form';
 import { TodoList } from '../components/TodoList';
@@ -9,8 +10,25 @@ const mainPageText = {
   title: 'To do list',
 };
 
+const GET_TODO = gql`
+  query Todo {
+    todo {
+      id
+      text
+      finished
+    }
+  }
+`;
+
 export function MainPage() {
-  const { list } = useContext(TodoContext);
+  const { list, setList } = useContext(TodoContext);
+  const { data } = useQuery(GET_TODO);
+  useEffect(() => {
+    if (setList && data) {
+      setList(data.todo);
+    }
+  }, [data]);
+
   return (
     <Container
       sx={{
