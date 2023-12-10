@@ -1,33 +1,26 @@
 import { Container, Divider, Typography } from '@mui/material';
 import { useContext, useEffect } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
 import { Form } from '../components/Form';
 import { TodoList } from '../components/TodoList';
 import { TodoContext } from '../contexts/TodoContext';
+import { ActionType } from '../types/ActionType';
+import { GET_TODO_LIST } from '../api/getTotoList';
 
 const mainPageText = {
   title: 'To do list',
 };
 
-const GET_TODO = gql`
-  query Todo {
-    todo {
-      id
-      text
-      finished
-    }
-  }
-`;
-
 export function MainPage() {
-  const { list, setList } = useContext(TodoContext);
-  const { data } = useQuery(GET_TODO);
-  useEffect(() => {
-    if (setList && data) {
-      setList(data.todo);
-    }
-  }, [data]);
+  const { toDoList, dispatch } = useContext(TodoContext);
+  useQuery(GET_TODO_LIST, {
+    onCompleted: (data) => {
+      if (dispatch) {
+        dispatch({ type: ActionType.RENEW_TODO_LIST, payload: data.todo });
+      }
+    },
+  });
 
   return (
     <Container
@@ -48,7 +41,7 @@ export function MainPage() {
         <Typography sx={{ textAlign: 'center', pb: 1 }} variant="h4" component="h1">
           {mainPageText.title}
         </Typography>
-        {list.length > 0 ? <TodoList /> : ''}
+        {toDoList.length > 0 ? <TodoList /> : ''}
         <Divider variant="middle" sx={{ p: 1 }} />
         <Form />
       </Container>

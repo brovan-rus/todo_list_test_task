@@ -1,7 +1,8 @@
 import { Button, Container, InputLabel, TextField } from '@mui/material';
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { TodoContext } from '../contexts/TodoContext';
+import { ActionType } from '../types/ActionType';
 
 const formTexts = {
   button: 'Add to the list',
@@ -11,15 +12,15 @@ const formTexts = {
 
 export function Form() {
   const [todoText, setTodoText] = useState('');
-  const { addToList, list } = useContext(TodoContext);
+  const { asyncDispatch, toDoList } = useContext(TodoContext);
 
   const handleTodoText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTodoText(event.target.value);
   };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (addToList) {
-      addToList(todoText);
+    if (asyncDispatch) {
+      asyncDispatch({ type: ActionType.ADD_TODO, payload: { text: todoText } });
     }
     setTodoText('');
   };

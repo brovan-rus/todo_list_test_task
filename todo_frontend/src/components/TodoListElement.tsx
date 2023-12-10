@@ -1,22 +1,24 @@
 import { useContext } from 'react';
-import { Box, Checkbox, Container, IconButton, ListItem, Typography } from '@mui/material';
+import { Box, Checkbox, IconButton, ListItem, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { TodoContext, TodoElement } from '../contexts/TodoContext';
+import { TodoContext } from '../contexts/TodoContext';
+import { ActionType } from '../types/ActionType';
+import { TodoElement } from '../types/ToDo';
 
 type TodoListElementProperties = {
   element: TodoElement;
 };
 export function TodoListElement({ element }: TodoListElementProperties) {
-  const { toggleFinished, removeFromList } = useContext(TodoContext);
+  const { asyncDispatch } = useContext(TodoContext);
   const handleFinish = () => {
-    if (toggleFinished) {
-      toggleFinished(element);
+    if (asyncDispatch) {
+      asyncDispatch({ type: ActionType.TOGGLE_FINISHED, payload: element });
     }
   };
   const handleDelete = () => {
-    if (removeFromList) {
-      removeFromList(element);
+    if (asyncDispatch) {
+      asyncDispatch({ type: ActionType.DELETE_TODO, payload: element });
     }
   };
   return (
