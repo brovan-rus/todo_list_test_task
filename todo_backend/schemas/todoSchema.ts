@@ -1,65 +1,65 @@
 import type {Todo} from "../types/Todo";
 
-const graphql = require('graphql')
+import {
+    GraphQLList,
+    GraphQLSchema,
+    GraphQLObjectType,
+    GraphQLFieldResolver
+} from "graphql";
 import {addToStore, deleteFromStore, getTodoList, toggleFinished} from "../stote";
+import {TodoGQLType} from "./todo";
+import {idArg, todoArgs} from "./todoArgs";
 
-const toDoType = new graphql.GraphQLObjectType({
-    name: 'ToDoList',
-    fields: () => ({
-        id: { type: graphql.GraphQLString },
-        text: { type: graphql.GraphQLString },
-        finished: { type: graphql.GraphQLBoolean },
-    })
-});
+const addTodoResolver: GraphQLFieldResolver<any, any, any> = (_source, args) => {
+    const todo: Todo = {
+        id: args.id,
+        text: args.text,
+        finished: args.finished,
+    };
+    addToStore(todo);
+    return todo;
+};
 
-const mutationType  = new graphql.GraphQLObjectType({
+const deleteTodoResolver: GraphQLFieldResolver<any, any, any> = (_source, args) => {
+    deleteFromStore(args.id);
+    return {id: args.id};
+};
+
+const toggleFinishedResolver: GraphQLFieldResolver<any, any, any> = (_source, args) => {
+    toggleFinished(args.id);
+    return {id: args.id};
+};
+
+const mutationType = new GraphQLObjectType({
     name: 'Mutation',
     fields: {
         addTodo: {
-            type: toDoType,
-            args: {
-                id: { type: graphql.GraphQLString },
-                text: { type: graphql.GraphQLString },
-                finished: { type: graphql.GraphQLBoolean },
-            },
-            resolve: function (_source: any, args: Todo) {
-                const todo = {
-                    id: args.id,
-                    text: args.text,
-                    finished: args.finished
-                }
-                addToStore(todo)
-                return todo;
-            }
+            type: TodoGQLType,
+            args: todoArgs,
+            resolve: addTodoResolver
         },
         deleteTodo: {
-            type: toDoType,
+            type: TodoGQLType,
             args: {
-                id: { type: graphql.GraphQLString },
+                id: idArg,
             },
-            resolve: function (_source: any, args: {id: string}) {
-                deleteFromStore(args.id);
-                return getTodoList();
-            }
+            resolve: deleteTodoResolver
         },
         toggleFinished: {
-            type: toDoType,
+            type: TodoGQLType,
             args: {
-                id: { type: graphql.GraphQLString },
+                id: idArg,
             },
-            resolve: function (_source: any, args: {id: string}) {
-               toggleFinished(args.id)
-                return getTodoList();
-            }
-        },
+            resolve: toggleFinishedResolver
+        }
     }
 });
 
-const queryType = new graphql.GraphQLObjectType({
+const queryType = new GraphQLObjectType({
     name: 'Query',
     fields: {
         todo: {
-            type: new graphql.GraphQLList(toDoType),
+            type: new GraphQLList(TodoGQLType),
             resolve: function () {
                 return getTodoList();
             }
@@ -67,7 +67,7 @@ const queryType = new graphql.GraphQLObjectType({
     }
 });
 
-export const todoSchema = new graphql.GraphQLSchema(
+export const todoSchema = new GraphQLSchema(
     {
         query: queryType,
         mutation: mutationType

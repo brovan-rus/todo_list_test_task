@@ -11,13 +11,8 @@ export const deleteFromStore = (id: string) => {
 }
 
 export const toggleFinished = (id: string) => {
-    data = data.map((element) => {
-        if (element.id === id) {
-            return {...element, finished: !element.finished}
-        } else {
-            return element
-        }
-    })
+    data = data.map((element) =>
+        (element.id === id ? {...element, finished: !element.finished} : element)
+    );
 }
-
 export const getTodoList = () => data;
