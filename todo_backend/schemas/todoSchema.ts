@@ -6,7 +6,7 @@ import {
     GraphQLObjectType,
     GraphQLFieldResolver
 } from "graphql";
-import {addToStore, deleteFromStore, getTodoList, toggleFinished} from "../stote";
+import {addToStore, deleteFromStore, findInStore, getTodoList, toggleFinished} from "../store";
 import {TodoGQLType} from "./todo";
 import {idArg, todoArgs} from "./todoArgs";
 
@@ -22,12 +22,12 @@ const addTodoResolver: GraphQLFieldResolver<any, any, any> = (_source, args) => 
 
 const deleteTodoResolver: GraphQLFieldResolver<any, any, any> = (_source, args) => {
     deleteFromStore(args.id);
-    return {id: args.id};
+    return getTodoList();
 };
 
 const toggleFinishedResolver: GraphQLFieldResolver<any, any, any> = (_source, args) => {
     toggleFinished(args.id);
-    return {id: args.id};
+    return findInStore(args.id)
 };
 
 const mutationType = new GraphQLObjectType({

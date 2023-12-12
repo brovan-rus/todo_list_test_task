@@ -1,5 +1,5 @@
 import { Container, Divider, Typography } from '@mui/material';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { useQuery } from '@apollo/client';
 
 import { Form } from '../components/Form';

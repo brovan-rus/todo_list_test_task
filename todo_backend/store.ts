@@ -16,3 +16,7 @@ export const toggleFinished = (id: string) => {
     );
 }
 export const getTodoList = () => data;
+
+export const findInStore = (id: string) => {
+    return data.find((element) => element.id === id)
+}

@@ -12,7 +12,7 @@ const formTexts = {
 
 export function Form() {
   const [todoText, setTodoText] = useState('');
-  const { asyncDispatch, toDoList } = useContext(TodoContext);
+  const { asyncDispatch } = useContext(TodoContext);
 
   const handleTodoText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTodoText(event.target.value);
